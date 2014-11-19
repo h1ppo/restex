@@ -6,7 +6,7 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 $app = new Silex\Application();
 
 $app->match('/', function() use($app) {
-    $controller = new \H1ppo\Controller\Index($app['request'], new Response);
+    $controller = new \H1ppo\Controller\Index($app, new Response);
     return $controller->run();
 });
 

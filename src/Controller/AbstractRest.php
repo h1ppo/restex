@@ -2,16 +2,16 @@
 
 namespace H1ppo\Controller;
 
-use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\JsonResponse;
 
 abstract class AbstractRest
 {
     /**
-     * @var Symfony\Component\HttpFoundation\Request
+     * @var \Pimple
      */
-    protected $request;
+    protected $app;
+
     /**
      * @var Symfony\Component\HttpFoundation\Response
      */
@@ -24,18 +24,19 @@ abstract class AbstractRest
     public $defaultLanguages = ['en' => 'en'];
 
     /**
-     * @param HttpFoundation\Request  $request
+     * @param \Pimple                  $dic
+     * @param HttpFoundation\Response  $response
      */
-    public function __construct(Request $request, Response $response)
+    public function __construct(\Pimple $dic, Response $response)
     {
-        $this->request = $request;
+        $this->app = $dic;
         $this->response = $response;
         $this->init();
     }
 
     public function run()
     {
-        switch (strtoupper($this->request->getMethod())) {
+        switch (strtoupper($this->app['request']->getMethod())) {
             case 'POST':
                 $this->write();
             break;
@@ -76,7 +77,7 @@ abstract class AbstractRest
 
     protected function validateAcceptHeader()
     {
-        $acceptHeaders = $this->request->getAcceptableContentTypes();
+        $acceptHeaders = $this->app['request']->getAcceptableContentTypes();
         $validContentTypes = $this->getValidContentTypes();
         $toBedeprecatedContentTypes = $this->getToBedeprecatedContentTypes();
         $deprecatedContentTypes = $this->getDeprecatedContentTypes();
@@ -121,7 +122,7 @@ abstract class AbstractRest
 
     protected function validateLanguage()
     {
-        $acceptedLanguages = $this->request->getLanguages();
+        $acceptedLanguages = $this->app['request']->getLanguages();
         if (!$acceptedLanguages) {
             $acceptedLanguages = $this->defaultLanguages;
         }
@@ -263,6 +264,6 @@ abstract class AbstractRest
     public function debug()
     {
         $this->response->headers->set('Content-Type', 'message/http');
-        return $this->request->__toString();
+        return $this->app['request']->__toString();
     }
 }
