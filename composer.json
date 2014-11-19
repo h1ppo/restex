@@ -1,0 +1,28 @@
+{
+    "name": "h1ppo/restex",
+    "authors": [
+        {
+            "name": "Jason Paige",
+            "email": "jason.r.paige@gmail.com",
+            "homepage": "http://www.jasonpaige.co.uk",
+            "role": "Developer"
+        }
+    ],
+    "minimum-stability": "dev",
+    "description": "Helpful RESTful API stuff for silex apps",
+    "keywords": [ "api", "restful", "hal" ],
+    "homepage": "https://github.com/h1ppo/assetic",
+    "type": "library",
+    "license": "MIT",
+    "autoload": {
+        "psr-4": {"H1ppo\\": "src/"}
+    },
+    "require": {
+        "silex/silex": "~1.2",
+        "guzzlehttp/guzzle": "~5.0",
+        "nocarrier/hal": "~0.9"
+    },
+    "require-dev": {
+        "behat/behat": "2.4.*@stable"
+    }
+}
